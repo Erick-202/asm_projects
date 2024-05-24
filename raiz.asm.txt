@@ -1,0 +1,35 @@
+INCLUDE Irvine32.inc
+
+.data
+numero DWORD ?           ; Número del cual se calculará la raíz cuadrada.
+contador DWORD 0         ; Contador para almacenar la cantidad de veces que se restan los impares.
+impar DWORD 1            ; Primer número impar a restar.
+
+.code
+main PROC
+    mov edx, OFFSET numero   ; Pide al usuario ingresar un número.
+    call ReadDec             ; Lee el número ingresado por el usuario.
+    mov numero, eax          ; Almacena el número en la variable 'numero'.
+
+    ; Inicializa el contador y el primer número impar.
+    mov eax, 0               ; Inicializa EAX a 0, se usará para el contador.
+    mov ecx, 1               ; ECX almacenará el primer número impar.
+
+bucle:
+    cmp numero, ecx          ; Compara el número con el número impar actual.
+    jb fin                   ; Si el número es menor que el impar, termina el bucle.
+    sub numero, ecx          ; Resta el número impar del número.
+    add ecx, 2               ; Genera el próximo número impar.
+    inc eax                  ; Incrementa el contador de restas.
+    jmp bucle                ; Repite el bucle.
+
+fin:
+    ; Muestra el resultado.
+    mov edx, OFFSET contador ; Prepara el contador para ser mostrado.
+    call WriteDec            ; Muestra el contador, que es la parte entera de la raíz cuadrada.
+    call Crlf                 ; Nueva línea para mejor visualización.
+
+    exit                     ; Termina el programa.
+main ENDP
+
+END main
